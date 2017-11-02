@@ -6,16 +6,18 @@
 
 		<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
 	</head>
 
 	<body>
-		<div class="header">
+		<!-- <div class="center"></div> -->
+		<div class="header sans-serif wrapper">
 			<h1>Star Wars Hangman</h1>
 		</div>
-		<div id="word"></div>
-		<div id="lives"></div>
-		<button id="reset">Reset</button>
-		<button id="hint">Hint</button>
+		<div class="sans-serif wrapper" id="word"></div>
+		<div class="sans-serif wrapper" id="lives"></div>
+		<button class="sans-serif wrapper" id="reset">Reset</button>
+		<button class="sans-serif wrapper" id="hint">Hint</button>
 
 
 		<script type="text/javascript">
@@ -30,6 +32,8 @@
 			var lettersGuessed = [];
 			var guessedWord = "";
 			var lives = 10;
+			var space = 0;
+			var counter = 0;
 
 			var wordDiv = document.getElementById("word");
 			var livesDiv = document.getElementById("lives");
@@ -51,6 +55,8 @@
 				guessedWord = "";
 				lettersGuessed = [];
 				lives = 10;
+				space = 0;
+				counter = 0;
 				wordIndexer = Math.floor((Math.random() * (words.length)));
 				currentWord = words[wordIndexer];
 				console.log(currentWord);
@@ -68,33 +74,41 @@
 
 			function updateString() {
 				guessedWord = "";
+				space = 0;
+				counter = 0;
 				// console.log("cleared guessedWord: " + guessedWord);
 				var letter;
 				for (var i = 0; i < currentWord.length; i++) {
-					for (var j = 0; j < lettersGuessed.length; j++) {
-						// console.log(lettersGuessed[j]);
-						if (currentWord[i] === lettersGuessed[j]) {
-						// if (lettersGuessed[j] == currentWord[i]) {
-							letter = currentWord[i];
-							// console.log(guessedWord);
-						} else if (currentWord[i] === " ") {
-							letter = " ";
-						} else {
-							letter = "_";
+					console.log("currentWord[i] = " + currentWord[i]);
+					if (currentWord[i] == " ") {
+						letter = " ";
+						space++;
+					} else if (alphabet.indexOf(currentWord[i]) >= 0) {
+						for (var j = 0; j < lettersGuessed.length; j++) {
+							if (currentWord[i] == lettersGuessed[j]) {
+								console.log("letter matches");
+								letter = currentWord[i];
+								counter++;
+								// break;
+							}
 						}
-					// guessedWord += letter;
+					} else {
+						letter = "_";
 					}
-				guessedWord += letter;
-				console.log("guessedWord: " + guessedWord);
+					guessedWord += letter;
 				}
+				
+				console.log("guessedWord: " + guessedWord);
 				// guessedWord += letter;
 				if (currentWord.indexOf(userGuess) == -1) {
 					lives--;
 					console.log("lives: " + lives);
 				}
-				if (guessedWord == currentWord) {
+				if ((space + counter) == currentWord.length) {
 					livesDiv.innerHTML = ("You win!");
 				}
+				console.log(counter + space);
+				console.log("length: " + currentWord.length);
 			}
 
 			// function check(guess) {
@@ -125,7 +139,7 @@
 				if (lives > 0) {
 					livesDiv.innerHTML = ("You have " + lives + " lives!");
 				} else {
-					livesDiv.innerHTML = ("Game over, Man!");
+					livesDiv.innerHTML = ("You have failed me for the last time!");
 				}
 				
 			}
