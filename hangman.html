@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Hangman | by David Bauer</title>
+
+		<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	</head>
+
+	<body>
+		<div class="header">
+			<h1>Star Wars Hangman</h1>
+		</div>
+		<div id="word"></div>
+		<div id="lives"></div>
+
+
+		<script type="text/javascript">
+
+			var words = ["STAR WARS", "JABBA THE HUTT", "DARTH VADER", "BOBA FETT", "LUKE SKYWALKER", "PRINCESS LEIA", "HAN SOLO", "DEATH STAR", "CHEWBACCA"];
+			var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "Y", "Z"];
+
+			var userGuess = "";
+			var lettersGuessed = [];
+			var guessedWord = "";
+			var lives = 10;
+
+			var wordDiv = document.getElementById("word");
+			var livesDiv = document.getElementById("lives");
+
+			var wordIndexer = Math.floor((Math.random() * (words.length)));
+			var currentWord = words[wordIndexer];
+			console.log(currentWord);
+
+			for (var i = 0; i < currentWord.length; i++) {
+				if (currentWord[i] == " ") {
+					guessedWord += " ";
+				} else {
+					guessedWord += "_";
+				}
+			}
+
+			function updateString() {
+				guessedWord = [""];
+				console.log("cleared guessedWord: " + guessedWord);
+				var letter;
+				for (var i = 0; i < currentWord.length; i++) {
+					for (var j = 0; j < lettersGuessed.length; j++) {
+						console.log(lettersGuessed[j]);
+						if (currentWord[i] === lettersGuessed[j]) {
+							letter = currentWord[i];
+							console.log("letter matched")
+						} else if (currentWord[i] === " ") {
+							letter = " ";
+						} else {
+							letter = "_";
+						}
+					// guessedWord += letter;
+					}
+				guessedWord += letter;
+				}
+				console.log(guessedWord);
+				if (currentWord.indexOf(userGuess) == -1) {
+					lives--;
+					console.log("lives: " + lives);
+				}
+				if (guessedWord == currentWord) {
+					livesDiv.innerHTML = ("You win!");
+				}
+			}
+
+
+
+			// function check(guess) {
+			// 	for (var j = 0; j < currentWord.length; j++) {
+			// 		var letter = currentWord.charAt(j);
+			// 		if (currentWord[j] == guess) {
+			// 			console.log(letter);
+			// 			console.log("letter matches");
+			// 			updateString(j, guess);
+			// 			// guessedWord.replaceAt(j, guess) = guess;
+			// 			console.log(guessedWord);
+			// 		}
+			// 	}
+			// 	console.log(guessedWord);
+			// }
+
+			function update() {
+				wordDiv.innerHTML = "";
+				for (var i = 0; i < currentWord.length; i++) {
+					if (guessedWord[i] == " ") {
+						wordDiv.innerHTML += "  -  ";
+					} else if (guessedWord[i] == currentWord[i]) {
+						wordDiv.innerHTML += currentWord[i] + " ";
+					} else {
+						wordDiv.innerHTML += "_ ";
+					}	
+				}
+				if (lives > 0) {
+					livesDiv.innerHTML = ("You have " + lives + " lives!");
+				} else {
+					livesDiv.innerHTML = ("Game over, Man!");
+				}
+				
+			}
+
+			update();
+
+			document.onkeyup = function(event) {
+				if (lives > 0) {
+					userGuess = String.fromCharCode(event.keyCode).toUpperCase();
+					if (alphabet.indexOf(userGuess) !== -1) {
+						userGuess = userGuess;
+						console.log("you picked a letter!")
+					} else {
+						livesDiv.innerHTML = ("Please enter a letter!");
+						return;
+					}
+					console.log("letter guessed: " + userGuess);
+					lettersGuessed.push(userGuess);
+					console.log(lettersGuessed);
+					updateString();
+					update();
+				}
+			}
+
+		</script>
+	</body>
+</html>
