@@ -22,7 +22,7 @@
 
 			var words = ["STAR WARS", "JABBA THE HUTT", "DARTH VADER", "BOBA FETT", "LUKE SKYWALKER", "PRINCESS LEIA", "HAN SOLO", "DEATH STAR", "CHEWBACCA", "LIGHTSABER", "YODA"];
 
-			var hints = ["Best... Movie... Ever...", "Crime does pay", "Heavy breather", "Watch out for that Sarlacc!", "Really just wants to go to Tosche Station", "Does anyone else feel the need for a Cinnabon?", "FREEZE!", "this != moon;", "Fuzzball", "Pure elegance", "sizeOf(this) != judgement;"]
+			var hints = ["Best... Movie... Ever...", "Crime does pay", "Heavy breather", "Watch out for that Sarlacc!", "Really just wants to go to Tosche Station", "Does anyone else feel the need for a Cinnabon?", "FREEZE!", "this \!\= moon\;", "Fuzzball", "Pure elegance", "sizeOf\(this\) \!\= judgement\;"];
 
 			var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "Y", "Z"];
 
@@ -75,7 +75,7 @@
 						// console.log(lettersGuessed[j]);
 						if (currentWord[i] === lettersGuessed[j]) {
 						// if (lettersGuessed[j] == currentWord[i]) {
-							letter += currentWord[i];
+							letter = currentWord[i];
 							// console.log(guessedWord);
 						} else if (currentWord[i] === " ") {
 							letter = " ";
@@ -85,7 +85,7 @@
 					// guessedWord += letter;
 					}
 				guessedWord += letter;
-				console.log("guessedWord: " + guessedWord)
+				console.log("guessedWord: " + guessedWord);
 				}
 				// guessedWord += letter;
 				if (currentWord.indexOf(userGuess) == -1) {
@@ -137,7 +137,7 @@
 					userGuess = String.fromCharCode(event.keyCode).toUpperCase();
 					if (alphabet.indexOf(userGuess) !== -1) {
 						userGuess = userGuess;
-						// console.log("you picked a letter!")
+						console.log("you picked a letter!")
 					} else {
 						livesDiv.innerHTML = ("Please enter a letter!");
 						return;
@@ -160,7 +160,7 @@
   			}
 
   			document.getElementById('hint').onclick = function() {
- 		    	livesDiv.innerHTML = (hints[wordIndexer])
+ 		    	livesDiv.innerHTML = (hints[wordIndexer]);
   			}
 
 		</script>
