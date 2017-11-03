@@ -7,37 +7,83 @@ body {
 	background-size: 75%;
 }
 
+h1 {
+	text-align: center;
+}
+
+/*.header {
+	margin: 0px auto 0px auto;
+}*/
+
+.spaced-out {
+	letter-spacing: 3px;
+}
+
+.spaced-out-more {
+	letter-spacing: 4px;
+}
+
 .sans-serif {
-	font-family: 'Share Tech Mono', monospace;
+	/*font-family: 'Share Tech Mono', monospace;*/
+	font-family: STARWARS;
 }
 
 .wrapper {
-	max-width: 640px;
-	/*align-content: center;*/
+	max-width: auto;
+}
+
+.word-wrapper {
+	width: auto;
 }
 
 .header {
 	margin: 30px 30px;
-	font-size: 50px;
+	font-size: 60px;
 	align-content: center;
+}
+
+.word-div {
+	margin: 30px 0px 30px 30px;
 }
 
 #word {
-	margin: 0 30px 0px 30px;
-	font-size: 30px;
-	align-content: center;
+	padding: 8px;
+	font-size: 40px;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.lives-div {
+	margin: 30px 0px 30px 30px;
 }
 
 #lives {
-	margin: 30px;
-	font-size: 20px;
+	padding: 8px;
+	font-size: 30px;
 	align-content: center;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.button-div {
+	padding: 8px;
 }
 
 button {
-	font-size: 20px;
+	font-size: 30px;
+	padding-top: 5px;
 	background: #444;
 	color: yellow;
 	align-content: center;
 	margin-left: 30px;
+}
+
+.display-div {
+	margin-top: 30px;
+	padding: 8px;
+}
+
+#display {
+	font-size: 30px;
+	margin: 30px 0px 0px 30px;
+	padding: 8px;
+	background: rgba(0, 0, 0, 0.5);
 }
