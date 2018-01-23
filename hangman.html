@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Hangman | by David Bauer</title>
+
+		<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/fonts/fonts.css">
+		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="header sans-serif spaced-out">
+			<h1>Star Wars Hangman</h1>
+		</div>
+		<div class="sans-serif word-div wrapper" >
+			<span id="word" class="spaced-out"></span>
+		</div>
+		<div class="sans-serif lives-div wrapper">
+			<span id="lives" class="spaced-out"></span>
+		</div>
+		<div class="button-div">
+			<button class="sans-serif wrapper spaced-out" id="reset">Reset</button>
+			<button class="sans-serif wrapper spaced-out-more" id="hint">Hint</button>
+		</div>
+		<div class="display-div">
+			<span class="sans-serif spaced-out-more" id="display"></span>
+		</div>
+
+
+		<script type="text/javascript">
+
+			var words = ["STAR WARS", "JABBA THE HUTT", "DARTH VADER", "BOBA FETT", "LUKE SKYWALKER", "PRINCESS LEIA", "HAN SOLO", "DEATH STAR", "CHEWBACCA", "LIGHTSABER", "YODA", "EWOK", "LANDO CALRISSIAN", "EMPEROR PALPATINE", "TATOOINE", "MILLENIUM FALCON", "JEDI", "SITH", "JANGO FETT", "COUNT DOOKU", "BIKER SCOUT", "OBI WAN KENOBI"];
+
+			var hints = ["Best... Movie... Ever...", "Crime does pay", "Heavy breather", "Watch out for that Sarlacc!", "Really just wants to go to Tosche Station", "Does anyone else feel the need for a Cinnabon?", "FREEZE!", "this \!\= moon\;", "Fuzzball", "Pure elegance", "sizeOf\(this\) \!\= judgement\;", "Nub Nub!", "Doesn\'t love the empire", "Has anyone seen the wrinkle cream?", "Comb the desert! Oh wait, wrong movie", "How is a parsec a unit of time?", "Force user", "Come in pairs", "Don't lose your head!", "Don't lose your head!", "Watch out for that... tree!", "Too old for this sort of thing"];
+
+			var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
+			var userGuess = "";
+			var lettersGuessed = [];
+			var guessedWord = "";
+			var lives = 10;
+			var space = 0;
+			var counter = 0;
+			var letter = "";
+			var win = false;
+
+			var wordDiv = document.getElementById("word");
+			var livesDiv = document.getElementById("lives");
+			var targetDiv = document.getElementById("display");
+
+			var wordIndexer = 0;// = Math.floor((Math.random() * (words.length)));
+			var currentWord = "";// = words[wordIndexer];
+
+			function resetGame() {
+				userGuess = "";
+				guessedWord = "";
+				lettersGuessed = [];
+				targetDiv.innerHTML = "";
+				lives = 10;
+				space = 0;
+				counter = 0;
+				win = false;
+				wordIndexer = Math.floor((Math.random() * (words.length)));
+				currentWord = words[wordIndexer];
+				console.log(currentWord);
+				for (var i = 0; i < currentWord.length; i++) {
+					if (currentWord[i] == " ") {
+						guessedWord += " ";
+					} else {
+						guessedWord += "_";
+					}
+				}
+				update();
+			}
+
+			resetGame();
+
+			function updateString() {
+				var currentLetter = "";
+				guessedWord = "";
+				space = 0;
+				counter = 0;
+				// console.log("cleared guessedWord: " + guessedWord);
+				// var letter;
+				for (var i = 0; i < currentWord.length; i++) {
+					currentLetter = currentWord[i];
+					console.log("currentWord[i] = " + currentLetter);
+					if (currentLetter == " ") {
+						letter = " ";
+						space++;
+					} else if (alphabet.indexOf(currentLetter) >= 0) {
+						if (lettersGuessed.indexOf(currentLetter) >= 0) {
+							console.log("letter matches");
+							letter = currentLetter;
+							counter++;
+						} else {
+							letter = "_";
+						}
+					}
+					console.log(letter);
+					guessedWord += letter;
+					console.log(guessedWord);
+				}
+				
+				// console.log("guessedWord: " + guessedWord);
+				// guessedWord += letter;
+				if (currentWord.indexOf(userGuess) == -1) {
+					lives--;
+					// console.log("lives: " + lives);
+				}
+				if ((space + counter) === currentWord.length) {
+					win = true;
+					update();
+				}
+				console.log("ctr + spc: " + counter + space);
+				console.log("length: " + currentWord.length);
+				console.log("length type: " + typeof(currentWord.length));
+				console.log("ctr type: " + typeof(counter));
+				console.log("spc type: " + typeof(space));
+			}	//end of updateString
+
+			function update() {
+				wordDiv.innerHTML = "";
+				for (var i = 0; i < currentWord.length; i++) {
+					if (guessedWord[i] == " ") {
+						wordDiv.innerHTML += "  -  ";
+					} else if (guessedWord[i] == currentWord[i]) {
+						wordDiv.innerHTML += currentWord[i] + " ";
+					} else {
+						wordDiv.innerHTML += "_ ";
+					}	
+				}
+				if (win == true) {
+					livesDiv.innerHTML = ("The force is strong with this one!")
+				}
+				if (lives > 0 && win == false) {
+					livesDiv.innerHTML = ("You have " + lives + " lives!");
+				} else if (lives == 0) {
+					livesDiv.innerHTML = ("You have failed me for the last time!");
+				}
+				targetDiv.innerHTML = lettersGuessed;
+				// targetDiv.attr('width', '200px');
+				// targetDiv.text(lettersGuessed);
+			}
+
+			// update();
+
+			document.onkeyup = function(event) {
+				if (lives > 0 && win == false) {
+					userGuess = String.fromCharCode(event.keyCode).toUpperCase();
+					if (alphabet.indexOf(userGuess) !== -1) {
+						userGuess = userGuess;
+						console.log("you picked a letter!")
+					} else {
+						livesDiv.innerHTML = ("Please enter a letter!");
+						return;
+					}
+					if (lettersGuessed.indexOf(userGuess) >= 0) {
+						livesDiv.innerHTML = ("Dude, you already guessed that letter!");
+						return;
+					}
+					// console.log("letter guessed: " + userGuess);
+					lettersGuessed.push(userGuess);
+					console.log(lettersGuessed);
+					updateString();
+					update();
+				}
+			}
+
+			document.getElementById('reset').onclick = function() {
+ 		    	resetGame();
+ 		    	console.log("game reset!");
+  			}
+
+  			document.getElementById('hint').onclick = function() {
+ 		    	if (lives > 0 && win == false) {
+ 		    		livesDiv.innerHTML = (hints[wordIndexer]);
+ 		    	}
+  			}
+
+		</script>
+	</body>
+</html>
