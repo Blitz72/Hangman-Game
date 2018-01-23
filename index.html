@@ -45,6 +45,7 @@
 			var counter = 0;
 			var letter = "";
 			var win = false;
+			var firstTime = false;
 
 			var wordDiv = document.getElementById("word");
 			var livesDiv = document.getElementById("lives");
@@ -72,6 +73,7 @@
 						guessedWord += "_";
 					}
 				}
+				firstTime = true;
 				update();
 			}
 
@@ -136,7 +138,9 @@
 					livesDiv.innerHTML = ("The force is strong with this one!")
 				}
 				if (lives > 0 && win == false) {
-					livesDiv.innerHTML = ("You have " + lives + " lives!");
+					if (firstTime) {
+						livesDiv.innerHTML = "Type in a letter.";
+					} else livesDiv.innerHTML = ("You have " + lives + " lives!");
 				} else if (lives == 0) {
 					livesDiv.innerHTML = ("You have failed me for the last time!");
 				}
@@ -148,6 +152,7 @@
 			// update();
 
 			document.onkeyup = function(event) {
+				if (firstTime) firstTime = false;
 				if (lives > 0 && win == false) {
 					userGuess = String.fromCharCode(event.keyCode).toUpperCase();
 					if (alphabet.indexOf(userGuess) !== -1) {
