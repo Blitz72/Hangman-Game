@@ -31,9 +31,75 @@
 
 		<script type="text/javascript">
 
-			var words = ["STAR WARS", "JABBA THE HUTT", "DARTH VADER", "BOBA FETT", "LUKE SKYWALKER", "PRINCESS LEIA", "HAN SOLO", "DEATH STAR", "CHEWBACCA", "LIGHTSABER", "YODA", "EWOK", "LANDO CALRISSIAN", "EMPEROR PALPATINE", "TATOOINE", "MILLENIUM FALCON", "JEDI", "SITH", "JANGO FETT", "COUNT DOOKU", "BIKER SCOUT", "OBI WAN KENOBI"];
-
-			var hints = ["Best... Movie... Ever...", "Crime does pay", "Heavy breather", "Watch out for that Sarlacc!", "Really just wants to go to Tosche Station", "Does anyone else feel the need for a Cinnabon?", "FREEZE!", "this \!\= moon\;", "Fuzzball", "Pure elegance", "sizeOf\(this\) \!\= judgement\;", "Nub Nub!", "Doesn\'t love the empire", "Has anyone seen the wrinkle cream?", "Comb the desert! Oh wait, wrong movie", "How is a parsec a unit of time?", "Force user", "Come in pairs", "Don't lose your head!", "Don't lose your head!", "Watch out for that... tree!", "Too old for this sort of thing"];
+			var answers = [ { word: "STAR WARS",
+                              hint: "Best... Movie... Ever..."
+                            },
+                            { word: "JABBA THE HUTT",
+                              hint: "Crime does pay"
+                            },
+                            { word: "DARTH VADER",
+                              hint: "Heavy breather"
+                            },
+                            { word: "BOBA FETT",
+                              hint: "Watch out for that Sarlacc!"
+                            },
+                            { word: "LUKE SKYWALKER",
+                              hint: "Really just wants to go to Tosche Station"
+                            },
+                            { word: "PRINCESS LEIA",
+                              hint: "Does anyone else feel the need for a Cinnabon?"
+                            },
+                            { word: "HAN SOLO",
+                              hint: "FREEZE!"
+                            },
+                            { word: "DEATH STAR",
+                              hint: "this \!\= moon\;"
+                            },
+                            { word: "CHEWBACCA",
+                              hint: "Fuzzball"
+                            },
+                            { word: "LIGHTSABER",
+                              hint: "Pure elegance"
+                            },
+                            { word: "YODA",
+                              hint: "sizeOf\(this\) \!\= judgement\;"
+                            },
+                            { word: "EWOK",
+                              hint: "Nub Nub!"
+                            },
+                            { word: "LANDO CALRISSIAN",
+                              hint: "Doesn\'t love the empire"
+                            },
+                            { word: "EMPEROR PALPATINE",
+                              hint: "Has anyone seen the wrinkle cream?"
+                            },
+                            { word: "TATOOINE",
+                              hint: "Comb the desert! Oh wait, wrong movie"
+                            },
+                            { word: "MILLENIUM FALCON",
+                              hint: "How is a parsec a unit of time?"
+                            },
+                            { word: "JEDI",
+                              hint: "Force user"
+                            },
+                            { word: "SITH",
+                              hint: "Come in pairs"
+                            },
+                            { word: "JANGO FETT",
+                              hint: "Don't lose your head!"
+                            },
+                            { word: "COUNT DOOKU",
+                              hint: "Don't lose your head!"
+                            },
+                            { word: "BIKER SCOUT",
+                              hint: "Watch out for that... tree!"
+                            },
+                            { word: "OBI WAN KENOBI",
+                              hint: "Too old for this sort of thing"
+                            },
+                            { word: "KYLO REN",
+                              hint: "Can you say 'Anger Management'?"
+                            }];
 
 			var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
@@ -51,8 +117,8 @@
 			var livesDiv = document.getElementById("lives");
 			var targetDiv = document.getElementById("display");
 
-			var wordIndexer = 0;// = Math.floor((Math.random() * (words.length)));
-			var currentWord = "";// = words[wordIndexer];
+			var wordIndexer = 0;// = Math.floor((Math.random() * (answers.length)));
+			var currentWord = "";// = answers[wordIndexer];
 
 			function resetGame() {
 				userGuess = "";
@@ -63,11 +129,11 @@
 				space = 0;
 				counter = 0;
 				win = false;
-				wordIndexer = Math.floor((Math.random() * (words.length)));
-				currentWord = words[wordIndexer];
+				wordIndexer = Math.floor((Math.random() * (answers.length)));
+				currentWord = answers[wordIndexer];
 				console.log(currentWord);
-				for (var i = 0; i < currentWord.length; i++) {
-					if (currentWord[i] == " ") {
+				for (var i = 0; i < currentWord.word.length; i++) {
+					if (currentWord.word[i] == " ") {
 						guessedWord += " ";
 					} else {
 						guessedWord += "_";
@@ -86,8 +152,8 @@
 				counter = 0;
 				// console.log("cleared guessedWord: " + guessedWord);
 				// var letter;
-				for (var i = 0; i < currentWord.length; i++) {
-					currentLetter = currentWord[i];
+				for (var i = 0; i < currentWord.word.length; i++) {
+					currentLetter = currentWord.word[i];
 					console.log("currentWord[i] = " + currentLetter);
 					if (currentLetter == " ") {
 						letter = " ";
@@ -108,28 +174,28 @@
 				
 				// console.log("guessedWord: " + guessedWord);
 				// guessedWord += letter;
-				if (currentWord.indexOf(userGuess) == -1) {
+				if (currentWord.word.indexOf(userGuess) == -1) {
 					lives--;
 					// console.log("lives: " + lives);
 				}
-				if ((space + counter) === currentWord.length) {
+				if ((space + counter) === currentWord.word.length) {
 					win = true;
 					update();
 				}
 				console.log("ctr + spc: " + counter + space);
 				console.log("length: " + currentWord.length);
-				console.log("length type: " + typeof(currentWord.length));
+				console.log("length type: " + typeof(currentWord.word.length));
 				console.log("ctr type: " + typeof(counter));
 				console.log("spc type: " + typeof(space));
 			}	//end of updateString
 
 			function update() {
 				wordDiv.innerHTML = "";
-				for (var i = 0; i < currentWord.length; i++) {
+				for (var i = 0; i < currentWord.word.length; i++) {
 					if (guessedWord[i] == " ") {
-						wordDiv.innerHTML += "  -  ";
-					} else if (guessedWord[i] == currentWord[i]) {
-						wordDiv.innerHTML += currentWord[i] + " ";
+						wordDiv.innerHTML += " - ";
+					} else if (guessedWord[i] == currentWord.word[i]) {
+						wordDiv.innerHTML += currentWord.word[i] + " ";
 					} else {
 						wordDiv.innerHTML += "_ ";
 					}	
@@ -181,7 +247,7 @@
 
   			document.getElementById('hint').onclick = function() {
  		    	if (lives > 0 && win == false) {
- 		    		livesDiv.innerHTML = (hints[wordIndexer]);
+ 		    		livesDiv.innerHTML = (currentWord.hint);
  		    	}
   			}
 
