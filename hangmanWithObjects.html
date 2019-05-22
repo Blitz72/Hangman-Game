@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Hangman | by David Bauer</title>
+
+		<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/fonts/fonts.css">
+		<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="header sans-serif spaced-out">
+			<h1>Star Wars Hangman</h1>
+		</div>
+		<div class="sans-serif word-div wrapper" >
+			<span id="word" class="spaced-out"></span>
+		</div>
+		<div class="sans-serif lives-div wrapper">
+			<span id="lives" class="spaced-out"></span>
+		</div>
+		<div class="button-div">
+			<button class="sans-serif wrapper spaced-out" id="reset">Reset</button>
+			<button class="sans-serif wrapper spaced-out-more" id="hint">Hint</button>
+		</div>
+		<div class="display-div">
+			<span class="sans-serif spaced-out-more" id="display"></span>
+		</div>
+
+
+		<script type="text/javascript">
+
+			var answers = [ { word: "STAR WARS",
+                              hint: "Best... Movie... Ever..."
+                            },
+                            { word: "JABBA THE HUTT",
+                              hint: "Crime does pay"
+                            },
+                            { word: "DARTH VADER",
+                              hint: "Heavy breather"
+                            },
+                            { word: "BOBA FETT",
+                              hint: "Watch out for that Sarlacc!"
+                            },
+                            { word: "LUKE SKYWALKER",
+                              hint: "Really just wants to go to Tosche Station"
+                            },
+                            { word: "PRINCESS LEIA",
+                              hint: "Does anyone else feel the need for a Cinnabon?"
+                            },
+                            { word: "HAN SOLO",
+                              hint: "FREEZE!"
+                            },
+                            { word: "DEATH STAR",
+                              hint: "this \!\= moon\;"
+                            },
+                            { word: "CHEWBACCA",
+                              hint: "Fuzzball"
+                            },
+                            { word: "LIGHTSABER",
+                              hint: "Pure elegance"
+                            },
+                            { word: "YODA",
+                              hint: "sizeOf\(this\) \!\= judgement\;"
+                            },
+                            { word: "EWOK",
+                              hint: "Nub Nub!"
+                            },
+                            { word: "LANDO CALRISSIAN",
+                              hint: "Doesn\'t love the empire"
+                            },
+                            { word: "EMPEROR PALPATINE",
+                              hint: "Has anyone seen the wrinkle cream?"
+                            },
+                            { word: "TATOOINE",
+                              hint: "Comb the desert! Oh wait, wrong movie"
+                            },
+                            { word: "MILLENIUM FALCON",
+                              hint: "How is a parsec a unit of time?"
+                            },
+                            { word: "JEDI",
+                              hint: "Force user"
+                            },
+                            { word: "SITH",
+                              hint: "Come in pairs"
+                            },
+                            { word: "JANGO FETT",
+                              hint: "Don't lose your head!"
+                            },
+                            { word: "COUNT DOOKU",
+                              hint: "Don't lose your head!"
+                            },
+                            { word: "BIKER SCOUT",
+                              hint: "Watch out for that... tree!"
+                            },
+                            { word: "OBI WAN KENOBI",
+                              hint: "Too old for this sort of thing"
+                            },
+                            { word: "KYLO REN",
+                              hint: "Can you say 'Anger Management'?"
+                            }];
+
+			var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
+			var userGuess = "";
+			var lettersGuessed = [];
+			var guessedWord = "";
+			var lives = 10;
+			var space = 0;
+			var counter = 0;
+			var letter = "";
+			var win = false;
+			var firstTime = false;
+
+			var wordDiv = document.getElementById("word");
+			var livesDiv = document.getElementById("lives");
+			var targetDiv = document.getElementById("display");
+
+			var wordIndexer = 0;// = Math.floor((Math.random() * (answers.length)));
+			var currentWord = "";// = answers[wordIndexer];
+
+			function resetGame() {
+				userGuess = "";
+				guessedWord = "";
+				lettersGuessed = [];
+				targetDiv.innerHTML = "";
+				lives = 10;
+				space = 0;
+				counter = 0;
+				win = false;
+				wordIndexer = Math.floor((Math.random() * (answers.length)));
+				currentWord = answers[wordIndexer];
+				console.log(currentWord);
+				for (var i = 0; i < currentWord.word.length; i++) {
+					if (currentWord.word[i] == " ") {
+						guessedWord += " ";
+					} else {
+						guessedWord += "_";
+					}
+				}
+				firstTime = true;
+				update();
+			}
+
+			resetGame();
+
+			function updateString() {
+				var currentLetter = "";
+				guessedWord = "";
+				space = 0;
+				counter = 0;
+				// console.log("cleared guessedWord: " + guessedWord);
+				// var letter;
+				for (var i = 0; i < currentWord.word.length; i++) {
+					currentLetter = currentWord.word[i];
+					console.log("currentWord[i] = " + currentLetter);
+					if (currentLetter == " ") {
+						letter = " ";
+						space++;
+					} else if (alphabet.indexOf(currentLetter) >= 0) {
+						if (lettersGuessed.indexOf(currentLetter) >= 0) {
+							console.log("letter matches");
+							letter = currentLetter;
+							counter++;
+						} else {
+							letter = "_";
+						}
+					}
+					console.log(letter);
+					guessedWord += letter;
+					console.log(guessedWord);
+				}
+				
+				// console.log("guessedWord: " + guessedWord);
+				// guessedWord += letter;
+				if (currentWord.word.indexOf(userGuess) == -1) {
+					lives--;
+					// console.log("lives: " + lives);
+				}
+				if ((space + counter) === currentWord.word.length) {
+					win = true;
+					update();
+				}
+				console.log("ctr + spc: " + counter + space);
+				console.log("length: " + currentWord.length);
+				console.log("length type: " + typeof(currentWord.word.length));
+				console.log("ctr type: " + typeof(counter));
+				console.log("spc type: " + typeof(space));
+			}	//end of updateString
+
+			function update() {
+				wordDiv.innerHTML = "";
+				for (var i = 0; i < currentWord.word.length; i++) {
+					if (guessedWord[i] == " ") {
+						wordDiv.innerHTML += " - ";
+					} else if (guessedWord[i] == currentWord.word[i]) {
+						wordDiv.innerHTML += currentWord.word[i] + " ";
+					} else {
+						wordDiv.innerHTML += "_ ";
+					}	
+				}
+				if (win == true) {
+					livesDiv.innerHTML = ("The force is strong with this one!")
+				}
+				if (lives > 0 && win == false) {
+					if (firstTime) {
+						livesDiv.innerHTML = "Type in a letter.";
+					} else livesDiv.innerHTML = ("You have " + lives + " lives!");
+				} else if (lives == 0) {
+					livesDiv.innerHTML = ("You have failed me for the last time!");
+				}
+				targetDiv.innerHTML = lettersGuessed;
+				// targetDiv.attr('width', '200px');
+				// targetDiv.text(lettersGuessed);
+			}
+
+			// update();
+
+			document.onkeyup = function(event) {
+				if (firstTime) firstTime = false;
+				if (lives > 0 && win == false) {
+					userGuess = String.fromCharCode(event.keyCode).toUpperCase();
+					if (alphabet.indexOf(userGuess) !== -1) {
+						userGuess = userGuess;
+						console.log("you picked a letter!")
+					} else {
+						livesDiv.innerHTML = ("Please enter a letter!");
+						return;
+					}
+					if (lettersGuessed.indexOf(userGuess) >= 0) {
+						livesDiv.innerHTML = ("Dude, you already guessed that letter!");
+						return;
+					}
+					// console.log("letter guessed: " + userGuess);
+					lettersGuessed.push(userGuess);
+					console.log(lettersGuessed);
+					updateString();
+					update();
+				}
+			}
+
+			document.getElementById('reset').onclick = function() {
+ 		    	resetGame();
+ 		    	console.log("game reset!");
+  			}
+
+  			document.getElementById('hint').onclick = function() {
+ 		    	if (lives > 0 && win == false) {
+ 		    		livesDiv.innerHTML = (currentWord.hint);
+ 		    	}
+  			}
+
+		</script>
+	</body>
+</html>
