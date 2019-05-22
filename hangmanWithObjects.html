@@ -64,6 +64,9 @@
                             { word: "YODA",
                               hint: "sizeOf\(this\) \!\= judgement\;"
                             },
+                            { word: "BB8",
+                              hint: "Rollin', rollin', rollin'..."
+                            },
                             { word: "EWOK",
                               hint: "Nub Nub!"
                             },
@@ -82,6 +85,9 @@
                             { word: "JEDI",
                               hint: "Force user"
                             },
+                            { word: "R2D2",
+                              hint: "Beep - boop!"
+                            },
                             { word: "SITH",
                               hint: "Come in pairs"
                             },
@@ -90,6 +96,9 @@
                             },
                             { word: "COUNT DOOKU",
                               hint: "Don't lose your head!"
+                            },
+                            { word: "C3PO",
+                              hint: "This just might be the droid you're looking for!"
                             },
                             { word: "BIKER SCOUT",
                               hint: "Watch out for that... tree!"
@@ -101,7 +110,8 @@
                               hint: "Can you say 'Anger Management'?"
                             }];
 
-			var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+			var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+                            "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 			var userGuess = "";
 			var lettersGuessed = [];
@@ -205,7 +215,7 @@
 				}
 				if (lives > 0 && win == false) {
 					if (firstTime) {
-						livesDiv.innerHTML = "Type in a letter.";
+						livesDiv.innerHTML = "Type in a letter or number.";
 					} else livesDiv.innerHTML = ("You have " + lives + " lives!");
 				} else if (lives == 0) {
 					livesDiv.innerHTML = ("You have failed me for the last time!");
@@ -225,7 +235,7 @@
 						userGuess = userGuess;
 						console.log("you picked a letter!")
 					} else {
-						livesDiv.innerHTML = ("Please enter a letter!");
+						livesDiv.innerHTML = ("Please enter a letter or number!");
 						return;
 					}
 					if (lettersGuessed.indexOf(userGuess) >= 0) {
