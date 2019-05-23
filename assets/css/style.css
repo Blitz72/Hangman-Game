@@ -2,7 +2,7 @@ body {
 	background: url("https://www.gambody.com/blog/wp-content/uploads/2016/08/Star-Wars-3D-Printer-Models.jpg");
 	color: yellow;
 	background-color: #000;
-	background-position: 50% 100px;
+	background-position: 50% 150px;
 	background-repeat: no-repeat;
 	background-size: 75%;
 }
@@ -32,18 +32,19 @@ h1 {
 	max-width: auto;
 }
 
-.word-wrapper {
+/* .word-wrapper {
 	width: auto;
-}
+} */
 
 .header {
 	margin: 30px 30px;
 	font-size: 60px;
-	align-content: center;
+	/* align-content: center; */
 }
 
 .word-div {
-	margin: 30px 0px 30px 30px;
+	/* margin: 30px 0px 30px 30px; */
+	margin: 30px;
 }
 
 #word {
@@ -53,7 +54,8 @@ h1 {
 }
 
 .lives-div {
-	margin: 30px 0px 30px 30px;
+	/* margin: 30px 0px 30px 30px; */
+	margin: 30px;
 }
 
 #lives {

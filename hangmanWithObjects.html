@@ -64,7 +64,7 @@
                             { word: "YODA",
                               hint: "sizeOf\(this\) \!\= judgement\;"
                             },
-                            { word: "BB8",
+                            { word: "BB-8",
                               hint: "Rollin', rollin', rollin'..."
                             },
                             { word: "EWOK",
@@ -85,7 +85,7 @@
                             { word: "JEDI",
                               hint: "Force user"
                             },
-                            { word: "R2D2",
+                            { word: "R2-D2",
                               hint: "Beep - boop!"
                             },
                             { word: "SITH",
@@ -97,7 +97,7 @@
                             { word: "COUNT DOOKU",
                               hint: "Don't lose your head!"
                             },
-                            { word: "C3PO",
+                            { word: "C-3PO",
                               hint: "This just might be the droid you're looking for!"
                             },
                             { word: "BIKER SCOUT",
@@ -141,11 +141,14 @@
 				win = false;
 				wordIndexer = Math.floor((Math.random() * (answers.length)));
 				currentWord = answers[wordIndexer];
+                // currentWord.word.replace(" ", "\t");
 				console.log(currentWord);
 				for (var i = 0; i < currentWord.word.length; i++) {
 					if (currentWord.word[i] == " ") {
 						guessedWord += " ";
-					} else {
+					} else if (currentWord.word[i] == "-") {
+                        guessedWord += "-";
+                    } else {
 						guessedWord += "_";
 					}
 				}
@@ -167,6 +170,9 @@
 					console.log("currentWord[i] = " + currentLetter);
 					if (currentLetter == " ") {
 						letter = " ";
+						space++;
+					} if (currentLetter == "-") {
+						letter = "-";
 						space++;
 					} else if (alphabet.indexOf(currentLetter) >= 0) {
 						if (lettersGuessed.indexOf(currentLetter) >= 0) {
@@ -203,8 +209,10 @@
 				wordDiv.innerHTML = "";
 				for (var i = 0; i < currentWord.word.length; i++) {
 					if (guessedWord[i] == " ") {
-						wordDiv.innerHTML += " - ";
-					} else if (guessedWord[i] == currentWord.word[i]) {
+						wordDiv.innerHTML += "\u{00A0}" + "\u{00A0}";
+					} else if (guessedWord[i] == "-") {
+                        wordDiv.innerHTML += "- "
+                    } else if (guessedWord[i] == currentWord.word[i]) {
 						wordDiv.innerHTML += currentWord.word[i] + " ";
 					} else {
 						wordDiv.innerHTML += "_ ";
@@ -231,15 +239,16 @@
 				if (firstTime) firstTime = false;
 				if (lives > 0 && win == false) {
 					userGuess = String.fromCharCode(event.keyCode).toUpperCase();
+                    console.log(userGuess);
 					if (alphabet.indexOf(userGuess) !== -1) {
-						userGuess = userGuess;
-						console.log("you picked a letter!")
+						// userGuess = userGuess;
+						console.log("you picked a letter or number!")
 					} else {
 						livesDiv.innerHTML = ("Please enter a letter or number!");
 						return;
 					}
 					if (lettersGuessed.indexOf(userGuess) >= 0) {
-						livesDiv.innerHTML = ("Dude, you already guessed that letter!");
+						livesDiv.innerHTML = ("Dude, you already guessed that character!");
 						return;
 					}
 					// console.log("letter guessed: " + userGuess);
